@@ -57,9 +57,9 @@ set_background()
 @st.cache_data 
 def load_data():
     try:
-        Fitness = pd.read_csv("fitness_dataset.csv").sample(frac=0.3, random_state=42)
+        Fitness = pd.read_csv("fitness_dataset_reduced.csv").sample(frac=0.3, random_state=42)
     except FileNotFoundError:
-        st.error("Enter: Data set file 'fitness_dataset.csv' not found." )
+        st.error("Enter: Data set file 'fitness_dataset_reduced.csv' not found." )
         return None, None
     
     Fitness.dropna(inplace=True) 
@@ -164,5 +164,6 @@ if st.sidebar.button("Predict Calories & Suggest Deit Plan"):
           st.markdown(f"<div class='result-box diet-box'>Recommended Diet Plan: {diet_suggestion}</div>", unsafe_allow_html=True)
         except NotFittedError:
            st.error("Model training issue. Please check your dataset and preprocessing.")
+
 
 
