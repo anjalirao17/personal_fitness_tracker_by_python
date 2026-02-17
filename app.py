@@ -17,6 +17,16 @@ def set_background():
     st.markdown(
         """
         <style>
+        .instruction-box {
+            background: linear-gradient(135deg, #1e90ff, #00c6ff);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-top: 30px;
+         }
         [data-testid="stAppViewContainer"] {
             background-color: #025d93;
         }
@@ -114,7 +124,7 @@ def classify_bmi(BMI):
 #Diet Plan Suggestion
 def suggest_diet(BMI):
     if BMI < 18.5:
-        return "Hight Calories Diet: Nuts and Seeds, Dairy Products, Rice, Avacado, Peanut Butter"
+        return "High Calories Diet: Nuts and Seeds, Dairy Products, Rice, Avocado, Peanut Butter"
     elif 18.5 <= BMI <= 24.9:
         return "Balanced Deit: Fruits, Vegetables, Whole grains"
     else:
@@ -125,9 +135,14 @@ st.title("Personal Fitness Tracker")
 st.subheader("Calories Burned Prediction & Diet Plan Suggestion")
 st.sidebar.header("Enter Your Details")
 
-st.markdown("<br><br>",unsafe_allow_html=True)
-placeholder = st.empty()
-placeholder.info("Enter Your Details On The Sidebar & Click The Button To Get Strated!")
+instruction = st.empty()
+
+instruction.markdown("""
+<div class="instruction-box">
+    Enter your details in the sidebar & click the button to begin 🚀
+</div>
+""", unsafe_allow_html=True)
+
 
 #user_input
 age = st.sidebar.number_input("Age", min_value=1, max_value=100, value=25)
@@ -143,7 +158,8 @@ intensity_level = st.sidebar.radio("Intensity Level",["Low", "Medium","High"])
 intensity_map = {"Low":1, "Medium":2,"High":3}
 intensity_val = intensity_map.get(intensity_level, 1)
 
-if st.sidebar.button("Predict Calories & Suggest Deit Plan"):
+if st.sidebar.button("Predict Calories & Suggest Diet Plan"):
+    instruction.empty()   # 👈 This removes instruction box
     if height <= 0:
         st.error("Height must be greater than zero!")
     else:
@@ -164,6 +180,7 @@ if st.sidebar.button("Predict Calories & Suggest Deit Plan"):
           st.markdown(f"<div class='result-box diet-box'>Recommended Diet Plan: {diet_suggestion}</div>", unsafe_allow_html=True)
         except NotFittedError:
            st.error("Model training issue. Please check your dataset and preprocessing.")
+
 
 
 
